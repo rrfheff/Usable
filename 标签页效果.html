@@ -1,0 +1,69 @@
+<html>
+<head>
+<script src="jquery.min.js"></script>
+<style media="screen">
+  *{
+    font-family: 微软雅黑;
+    margin: 0px;
+    padding: 0px;
+  }
+  .menu{
+    height: 40px;
+    background: #272822;
+  }
+  .menu ul{
+    list-style: none;
+  }
+  .menu ul li{
+    padding-left: 50px;
+    float: left;
+    color: #fff;
+    line-height: 40px;
+    width: 100px;
+    cursor: pointer;
+  }
+  .info{
+    height:200px;
+    background: #ccc;
+    color:#fff;
+    overflow: hidden;
+    padding: 15px;
+  }
+  .info .item {
+    display: none;
+  }
+</style>
+</head>
+<body>
+  <div class="menu">
+    <ul>
+      <li>页面1</li>
+      <li>页面2</li>
+      <li>页面3</li>
+    </ul>
+  </div>
+<!--div>p.item${页面 $}*3-->
+<div class='info'>
+  <div class="item">这是页面 1</div>
+  <div class="item">这是页面 2</div>
+  <div class="item">这是页面 3</div>
+</div>
+</body>
+<script>
+  $('.menu li').eq(0).css({'background':'#ccc'});
+  $('.info .item').eq(0).show();
+  $(".menu li").mouseenter(function(){
+    idx=$(this).index('.menu li');
+    $('.info .item').eq(idx).show();
+    $('.info .item').not($('.info .item').eq(idx)).hide();
+    $(this).css({'background':'#ccc'});
+    $('.menu li').not($(this)).css({'background':'#272822'});
+  });
+  $('.info .item').each(function(i){
+    $(this).data({'num':i+1});
+  });
+  $('.info .item').click(function(){
+    $(this).text('这是页面'+$(this).data('num')+'的子页面');
+  });
+</script>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<style media="screen">
+.main {
+    background-image: linear-gradient(-225deg, #B7F8DB 0%, #50A7C2 100%);
+    /* margin-top: 1%; */
+    height: 97vh;
+    position: relative;
+    width: 97%;
+    /* margin-bottom: 1%; */
+    top: 1.5%;
+    left: 1.5%;
+    clip-path: polygon(75% 0, 100% 0, 100% 61%, 100% 100%, 0 100%, 0 0);
+    /* animation: menuClose 500ms forwards; */
+    transition: clip-path 400ms;
+    /* transition-timing-function: cubic-bezier(0.1, 0.7, 1.0, 0.1); */
+    /* overflow-y: scroll; */
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.one-hundred-vh { height: 100vh }
+
+.follower {
+    width: 35px;
+    height: 35px;
+    border: white 3px solid;
+    border-radius: 40px;
+    transition-duration: 200ms;
+    transition-timing-function: ease-out;
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 25;
+    overflow: hidden;
+    pointer-events:none;/*阻止任何鼠标事件*/
+}
+</style>
+<body>
+  <div class="follower"></div>
+  <main class="main">
+    <div id="top-image" class="shapeshifter play" style="background-image: url(img/sprite_60fps.svg)">
+    </div>
+    <div class="streak streak1"></div>
+    <div class="streak streak2"></div>
+    <div class="streak streak3"></div>
+    <div class="streak streak4"></div>
+
+    <div class="circle circle1"></div>
+    <div class="circle circle2"></div>
+    <div class="circle circle3"></div>
+    <div class="circle circle4"></div>
+    <div class="circle circle5"></div>
+    <div class="circle circle6"></div>
+    <div class="circle circle7"></div>
+    <div class="container one-hundred-vh">
+      <div class="andle-div"></div>
+      <div class="row">
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+          <div class="right-hero">
+            <h1>Fly Passed the Competetion</h1>
+            <p class="line-height"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis pulvinar luctus sapien, eleifend malesuada lorem. Etiam congue erat quis massa eleifend feugiat.</p>
+            <button class="btn stopper"><span>Learn More</span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="one-hundred-vh white">
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+          </div>
+          <div class="col-6">
+            <h1>Why we good</h1>
+            <p class="line-height">Maecenas sapien leo, tempor a cursus et, venenatis at erat. Vivamus faucibus hendrerit ante, et placerat lorem faucibus vel. Duis dapibus vehicula ultricies. Integer ligula velit, commodo sed laoreet aliquam, placerat sed magna. Duis sit amet lacinia nibh. Vestibulum vel lacus vitae risus ullamcorper gravida. Pellentesque orci est, ultricies at leo quis, efficitur faucibus justo. Ut rutrum mauris tortor, nec mattis eros bibendum at. Aliquam tincidunt erat eu arcu condimentum, eu bibendum felis suscipit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+          </div>
+          <div class = "fade">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+  <script type="text/javascript">
+    $(document).on('mousemove', (event) => {
+      $('.follower').css({
+        left: event.clientX,
+        top: event.clientY+window.scrollY,
+      });
+      // console.log(main.scrollY);
+    });
+  </script>
+</body>
+
+</html>

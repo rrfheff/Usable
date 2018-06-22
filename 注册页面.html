@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head leng="en">
+    <meta charset=UTF-8>
+    <title>好来购</title>
+	<script>
+	    function namecheck(){}
+	</script>
+</head>
+<body>
+    <h2>账号注册</h2>
+    <form>
+       <p>
+       账号:<input type="text"pattern="^/w[6,12]＄"required autofocus name="userid"id="userid"placeholder="创建你的账号">
+       </p>
+       <p>
+       密码:<input type="password"required name="pass"id="pass"placeholder="输入您的密码">
+       </p>
+	   <p>
+	   性别:<input type="radio" name="sex" value="男"checked>男
+	        <input type="radio" name="sex" value="女"checked>女
+		</p>
+		<p>
+		电子邮箱：<input type="email" required name="email" id="email" placeholder="您的电子邮箱">
+		</p>
+		<p>
+		生日：<input type="date" name="birthday" id="birthday" value="幸运日">
+		</p><br/>
+		<p>
+		你最喜欢的颜色（幸运色）：<input type="color"name="user_color">
+		</p><br />
+		当前完成进度为<progress value="10" max="100"></progress>
+		<p>
+		我们必须在<time datetime="20180504">五四青年节之前写出一个作品介绍</time>
+		</p>
+		选择一个人来写作品介绍吧！</br><input list="browers"/>
+		<datalist id="browers">
+			<option value="李佳琪"label="女士优先">
+			<option value="黄争凝"label="女士优先">
+			<option value="苑晓春"label="首选">
+			<option value="于宝琨"label="必杀技，不能轻易动用">
+			<option value="曾宇峰"label="我就静静的看着你们就行了。">
+		</datalist>
+		<input type="submit" value="提交">
+		<br/><br/>
+		<textarea name="content" cols="60" rows="8"readonly>
+		欢迎阅读服务条款协议：
+		                      好来购是一款面向全中国的购物平台，相信不久的将来就能媲美淘宝等著名购物平台。
+							  版权所有，盗版必究！
+		</textarea><br/>
+		同意以上协议<input name="agree" type="checkbox"/>
+		<input name="btn" type="submit"value="注册"disabled="disabled" />
+		<p>
+		&nbsp;&nbsp;&nbsp;<input type="submit" name="submit"value="提交"/>&nbsp;&nbsp;
+		                <input type="reset" name="reset" value="重写"/>
+		</p>
+	</form>
+	</body>
+	</html>

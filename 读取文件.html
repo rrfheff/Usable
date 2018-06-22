@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <script src="md5.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div>
+    上传文件 ： <input type="file" name = "file" id = "fileId" />
+    <button  type = "submit" name = "btn" value = "上传" id = "btnId" onclick="check()" /> 上传文件
+  </div>
+  <form class="" action="http://localhost:8082/fanyiResult.php" method="post">
+    <input type="hidden" name="words" id="words" value="">
+    <!-- <input type="hidden" name="id" id="id" value="61e6f939f80c51a4"> -->
+    <!-- <input type="hidden" name="key" id="key" value="1hEDEyzZR3szeIDXWAPjPbUbWryoFWXK"> -->
+    <!-- <input type="hidden" name="salt" id="salt" value="7883"> -->
+    <input type="hidden" name="sign" id="sign" value="">
+    <input type="submit" name="" value="提交">
+  </form>
+<script>
+  var wordsInfo = document.getElementById('words')
+  var sign = document.getElementById('sign')
+  var id = '61e6f939f80c51a4'
+  var key = '1hEDEyzZR3szeIDXWAPjPbUbWryoFWXK'
+  var salt = '7883'
+
+  function check() {
+
+      var objFile = document.getElementById("fileId")
+      if(objFile.value == "") {
+          alert("不能空")
+          return false
+      }
+
+      // console.log(objFile.files[0].size); // 文件字节数
+      // console.log(objFile.files[0]); // 文件
+      var files = $('#fileId').prop('files');//获取到文件列表
+      if(files.length == 0){
+          alert('请选择文件')
+      }else{
+          var reader = new FileReader();//新建一个FileReader
+          reader.readAsText(files[0], "UTF-8")//读取文件
+          reader.onload = function(evt){ //读取完文件之后会回来这里
+              var fileString = evt.target.result // 读取文件内容
+              // console.log(fileString)
+              fileString = fileString.replace(/\ +/g,"")//去空格
+              // fileString = fileString.replace(/\ +/g,"")
+              wordsInfo.value=fileString.replace(/[\r\n\t]/g,"")//去换行
+              console.log(wordsInfo.value)
+              sign.value=md5(id+wordsInfo.value+salt+key)
+      }
+  }
+
+}
+</script>
+</body>
+</html>

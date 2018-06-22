@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<style media="screen">
+  ul li{
+    list-style: none;
+    float: left;
+    margin: 0 20px;
+    cursor: pointer;
+  }
+  ul li:hover{
+    color: red;
+    transition: all 0.3s ease;
+  }
+  .line{
+    position: absolute;
+    top: 0;
+    height: 4px;
+    background-color: red;
+    transition: all 0.2s ease-in-out;
+  }
+</style>
+<body>
+  <div class="line"></div>
+  <ul>
+    <li>aaa</li>
+    <li>bbb</li>
+    <li>ccc</li>
+  </ul>
+  <script type="text/javascript">
+    $("ul li").mouseenter(function(){
+      $('.line').width($(this).width());
+      $('.line').offset({left:$(this).offset().left});
+    });
+  </script>
+</body>
+
+</html>

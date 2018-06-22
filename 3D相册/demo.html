@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html onselectstart="return false"><!--取消选择-->
+<head>
+	<meta charset="utf-8">
+	<title>3d旋转</title>
+</head>
+
+<style type="text/css">
+	*{margin: 0px;padding: 0px;}
+	body{background-color: #000; overflow: hidden;}
+	#box{width: 133px; height: 200px; margin: 200px auto; position: relative; transform-style: preserve-3d; transform: perspective(900px) rotateX(-20deg);}
+	#box img{position: absolute; width: 100%; height: 100%; left: 0px; top: 0px; border-radius: 5px; box-shadow: 0px 0px 10px #fff;}
+</style>
+
+<body>
+	<div id="box">
+		<img src="img/1.jpg">
+		<img src="img/2.jpg">
+		<img src="img/3.jpg">
+		<img src="img/4.jpg">
+		<img src="img/5.jpg">
+		<img src="img/6.jpg">
+		<img src="img/7.jpg">
+		<img src="img/8.jpg">
+		<img src="img/9.jpg">
+		<img src="img/10.jpg">
+		<img src="img/11.jpg">
+	</div>
+
+	<script type="text/javascript">
+		window.onload=function(){
+			var oImg = document.getElementsByTagName('img');
+			var imgLen = oImg.length;
+			var x = 360/imgLen;
+			var oBox = document.getElementById('box');
+			var timer;
+			for (var i = 0; i < imgLen; i++) {
+				oImg[i].style.cssText = "transform:rotateY("+x*i+"deg) translateZ(350px);transition:2s "+(imgLen-i)*0.1+"s;";
+				oImg[i].setAttribute("ondragstart","return false");//添加属性 取消图片拖动
+			}
+			//移动分点击，拖动，松开
+			var lastX,lastY,newX,newY,rX,rY;
+			var x = 0, y = 0;
+			document.onmousedown=function(e){
+				e = e||window.event;
+				lastX = e.clientX;
+				lastY = e.clientY;
+				this.onmousemove=function(e){
+					e = e||window.event;
+					newX = e.clientX;
+					newY = e.clientY;
+					rX = newX - lastX;//差值
+					rY = newY - lastY;
+					x = x + rX*0.2;//差值累加
+					y = y + rY*0.2;
+					oBox.style.cssText="transform:perspective(900px) rotateX("+-y+"deg) rotateY("+x+"deg)";
+					
+					lastX = e.clientX;
+					lastY = e.clientY;
+				}
+				this.onmouseup=function(){
+					this.onmousemove=null;
+					//惯性，定时器完成
+					timer = setInterval(function(){
+						rX*=0.95;//差值越来越小就是惯性实现
+						rY*=0.95;
+						if(Math.abs(rX)<0.5&&Math.abs(rY)<0.5){
+							clearInterval(timer);
+						}//math.abs()绝对值
+						x = x + rX * 0.2;
+						y = y + rY * 0.2;
+						oBox.style.cssText="transform:perspective(900px) rotateX("+-y+"deg) rotateY("+x+"deg)";
+					},40);
+					}
+			}
+		}
+	</script>
+
+</body>
+</html>

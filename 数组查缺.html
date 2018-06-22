@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="jquery.min.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<style media="screen">
+
+</style>
+<body>
+  <script type="text/javascript">
+    let array = "-3 1 0 5".split(' ').map(Number);
+    array.sort();
+    // missing = new Array(array[array.length-1] - array[0] + 1)
+    //                 .fill()
+    //                 .map((_, idx) => array[0] + idx)
+    //                 .filter(elem => !array.includes(elem));
+    missing = Array.from({length: array[array.length-1] - array[0] + 1},
+                        (_, idx) => array[0] + idx)
+               .filter(elem => !array.includes(elem));
+    console.log(missing);
+  </script>
+</body>
+
+</html>
