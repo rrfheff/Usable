@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+    .container{
+      width: 200px;
+      border: 1px solid #000;
+    }
+    .line{
+      height: 20px;
+      margin-top: 5px;
+      border-bottom: 1px solid #000;
+    }
+    input{
+      float: right;
+    }
+    b{
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="line">
+      <span class="info"></span>
+      <input type="checkbox" name="check" class="check">
+    </div>
+    <div class="line">
+      <span class="info"></span>
+      <input type="checkbox" name="check" class="check">
+    </div>
+    <div class="line">
+      <span class="info"></span>
+      <input type="checkbox" name="check" class="check">
+    </div>
+    <b onclick="goPrePage()">上一页</b>
+    <b style="float:right" onclick="goNextPage()">下一页</b>
+  </div>
+</body>
+<script type="text/javascript">
+  var data = [
+    {
+      'id': 1,
+      'word': 'a'
+    },
+    {
+      'id': 2,
+      'word': 'b'
+    },
+    {
+      'id': 3,
+      'word': 'c'
+    },
+    {
+      'id': 4,
+      'word': 'd'
+    },
+    {
+      'id': 5,
+      'word': 'e'
+    },
+  ];
+  var info = document.getElementsByClassName("info");
+  var line = document.getElementsByClassName("line");
+  var check = document.getElementsByClassName("check");
+  var page = 0;
+  for (let i = 0; i < 3; i++) {
+    if (data[page*3+i]) {
+      line[i].style.display = 'block';
+      info[i].innerText = data[page*3+i].word;
+    }else{
+      line[i].style.display = 'none';
+    }
+  };
+  function goNextPage(){
+    if (page==Math.floor(data.length/3)) {
+      alert('已经是最后一页');
+      return;
+    };
+    for (let i = 0; i < 3; i++) {
+      if (check[i].checked==true) {
+        data[page*3+i].ischecked = true;
+        check[i].checked=false;
+      }else if (check[i].checked==false&&data[page*3+i]) {
+        data[page*3+i].ischecked = false;
+      }
+    };
+    page++;
+    for (let i = 0; i < 3; i++) {
+      if (data[page*3+i]) {
+        line[i].style.display = 'block';
+        info[i].innerText = data[page*3+i].word;
+        if (data[page*3+i].ischecked == true) {
+          check[i].checked = true;
+        }else{
+          check[i].checked = false;
+        }
+      }else{
+        line[i].style.display = 'none';
+      };
+    };
+  };
+  function goPrePage(){
+    if (page==0) {
+      alert('已经是第一页');
+      return;
+    };
+    for (let i = 0; i < 3; i++) {
+      if (check[i].checked==true) {
+        data[page*3+i].ischecked = true;
+        check[i].checked = false;
+      }else if (check[i].checked==false&&data[page*3+i]) {
+        data[page*3+i].ischecked = false;
+      }
+    };
+    page--;
+    for (let i = 0; i < 3; i++) {
+      if (data[page*3+i]) {
+        line[i].style.display = 'block';
+        info[i].innerText = data[page*3+i].word;
+        if (data[page*3+i].ischecked == true) {
+          check[i].checked = true;
+        }else{
+          check[i].checked = false;
+        }
+      }else{
+        line[i].style.display = 'none';
+      };
+    };
+  };
+</script>
+</html>

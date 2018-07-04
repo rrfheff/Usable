@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style media="screen">
+
+  </style>
+</head>
+<body>
+<table>
+  <tr>
+    <th>代号</th>
+    <th>价格</th>
+    <th>涨幅</th>
+  </tr>
+</table>
+<select class="" onchange='selectChange(this[selectedIndex].value)'>
+  <option value="1">筛选价格10元以下的</option>
+  <option value="2">选项2</option>
+  <option value="3">选项3</option>
+</select>
+</body>
+<script type="text/javascript">
+  window.onload=()=>{
+    document.querySelector('select').selectedIndex = -1;//初始空白
+  }
+  var data = [
+    {
+      'id': '001',
+      'price': '11',
+      'range': '5%'
+    },
+    {
+      'id': '002',
+      'price': '9',
+      'range': '-2%'
+    },
+    {
+      'id': '003',
+      'price': '15',
+      'range': '3%'
+    },
+  ];
+
+  var createTable = (obj)=>{
+    for (let i = 0; i < obj.length; i++) {
+      var tr = document.createElement('tr');
+      for (let j = 0; j < 3; j++) {
+        var td = document.createElement('td');
+        var label = null;
+        switch(j)
+        {
+          case 0:
+            label = 'id';
+          break;
+          case 1:
+            label = 'price';
+          break;
+          case 2:
+            label = 'range';
+          break;
+        };
+        td.innerHTML = obj[i][label];
+        tr.append(td);
+      };
+      document.querySelector('tbody').append(tr);
+    }
+  };
+  createTable(data);
+
+  function selectChange(index){
+    console.log(index);
+    switch(index)
+    {
+      case '1':
+        document.querySelector('tbody').innerHTML = "<tr><th>代号</th><th>价格</th><th>涨幅</th></tr>";
+        let newData = data.filter((value)=>value.price<10);
+        createTable(newData);
+      break;
+      case 2:
+        //other
+      break;
+      case 3:
+        //other
+      break;
+    };
+  }
+</script>
+</html>

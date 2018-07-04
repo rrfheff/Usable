@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>树形菜单</title>
+  <style>
+    .tree{
+      margin-left: 15px;
+      width: 100px;
+      cursor: default;
+    }
+    .arrow{
+      cursor: pointer;
+    }
+    span{
+      font-size: 15px;
+    }
+    #menu{
+      width: 0;
+      height: 50px;
+      overflow: hidden;
+      box-shadow: 0 1px 1px #888,1px 0 1px #ccc;
+      position: absolute;
+    }
+    .menu{
+      width: 130px;
+      height: 25px;
+      line-height: 25px;
+      padding: 0 10px;
+      border-top: 1px solid #ccc;
+      cursor: pointer;
+    }
+  </style>
+  <script>
+    function onclickfclose(id) {
+      var ul = document.getElementById(id);
+      var objv = ul.style.display;
+      if (objv == 'none') {
+        ul.style.display = 'block'
+      } else {
+        ul.style.display = 'none';
+      }
+    }
+  </script>
+</head>
+<body id="0">
+  <div id="menu">
+    <div class="menu">添加子节点</div>
+    <div class="menu">删除该节点</div>
+  </div>
+</body>
+<script type="text/javascript">
+  var info = [
+    {
+      'Id':1,
+      'Fid':0,
+      'Name':'a'
+    },
+    {
+      'Id':2,
+      'Fid':1,
+      'Name':'b'
+    },
+    {
+      'Id':3,
+      'Fid':1,
+      'Name':'c'
+    },
+    {
+      'Id':4,
+      'Fid':1,
+      'Name':'d'
+    },
+    {
+      'Id':5,
+      'Fid':3,
+      'Name':'e'
+    },
+    {
+      'Id':6,
+      'Fid':0,
+      'Name':'f'
+    },
+    {
+      'Id':7,
+      'Fid':6,
+      'Name':'g'
+    },
+    {
+      'Id':8,
+      'Fid':6,
+      'Name':'h'
+    },
+  ];
+  info.map(create);
+  var trees = document.querySelectorAll('.tree');
+  var menu = document.getElementById("menu");
+  var infoLength = info.length;
+  var beReplaced = null;
+  //关闭右键菜单
+  window.onclick=function(e){
+    //用户触发click事件就可以关闭了，因为绑定在window上，按事件冒泡处理，不会影响菜单的功能
+    menu.style.height=0;
+  };
+
+  //右键菜单事件绑定
+  //新建节点
+  document.querySelectorAll(".menu")[0].addEventListener('click',()=>{
+    var newNode = create({
+      'Id':infoLength+1,
+      'Fid':menu.getAttribute('treeID'),
+      'Name':'新建节点'
+    });
+    var nodeParent = newNode.parentNode;
+    if (nodeParent.childNodes[0].innerText=='▶') {
+      nodeParent.childNodes[0].click();
+    };
+    if (nodeParent.childNodes[0].innerText=='▼') {
+      newNode.style.display='block';
+    };
+    infoLength++;
+  });
+  //删除节点
+  document.querySelectorAll(".menu")[1].addEventListener('click',()=>{
+    var nodeDelete = document.getElementById(menu.getAttribute('treeID'));
+    var nodeParent = nodeDelete.parentNode;
+    if (nodeParent.childNodes.length==3) {
+      nodeParent.removeChild(nodeParent.childNodes[0]);
+      nodeParent.removeAttribute('haveChild');
+    }
+    nodeParent.removeChild(nodeDelete);
+    infoLength--;
+  });
+
+  //create函数，创建树
+  function create(obj){
+    var o = document.createElement('div');
+    var span = document.createElement('span');
+    var text = document.createElement('span');
+    var parent = null;
+    o.id = obj.Id;
+    o.setAttribute('class','tree');
+    o.setAttribute('fid',obj.Fid);
+    span.innerHTML='▶';
+    span.setAttribute('class','arrow');
+    text.innerHTML=obj.Name;
+    o.append(text);
+    if (obj.Fid===0) {
+      o.style.display='block';
+    }else{
+      o.style.display='none';
+      parent = document.getElementById(obj.Fid);
+      if (!parent.getAttribute('haveChild')) {
+        parent.setAttribute('haveChild',true);
+        parent.prepend(span);
+      };
+    };
+    //下拉箭头
+    span.onclick=(e)=>{
+      //阻止事件冒泡
+      e.stopPropagation();
+      var children = document.querySelectorAll('div[fid="'+obj.Fid+'"]');
+      if (children[0].style.display=='none') {
+        for (let i = 0; i < children.length; i++) {
+          children[i].style.display='block';
+          span.innerHTML='▼';
+        }
+      }else if(children[0].style.display=='block'){
+        for (let i = 0; i < children.length; i++) {
+          children[i].style.display='none';
+          span.innerHTML='▶';
+        }
+      };
+    };
+    //重命名
+    text.ondblclick=(e)=>{
+      //阻止选中事件
+      e.preventDefault();
+      //阻止事件冒泡
+      e.stopPropagation();
+      var haveInput = document.getElementById('inputNewName');
+      if(haveInput){
+        haveInput.parentNode.removeChild(beReplaced,haveInput);
+      };
+      var inputNewName = document.createElement('input');
+      inputNewName.style.width = 70+'px';
+      inputNewName.style.textAlign = getStyle(text,'textAlign');
+      inputNewName.style.marginLeft = getStyle(text,'marginLeft');
+      inputNewName.value = text.innerHTML;
+      inputNewName.id = 'inputNewName';
+      beReplaced = text;
+      text.parentNode.replaceChild(inputNewName,text);
+      inputNewName.select();
+      inputNewName.onblur=()=>{
+        beReplaced.innerText = inputNewName.value;
+        inputNewName.parentNode.replaceChild(beReplaced,inputNewName);
+      }
+    }
+    //自定义右键点击菜单
+    o.oncontextmenu=function(e){
+      //取消默认的浏览器自带右键
+      e.preventDefault();
+      //阻止事件冒泡
+      e.stopPropagation();
+      menu.setAttribute('treeID',this.id);
+      menu.style.left = e.clientX+'px';
+      menu.style.top = e.clientY+'px';
+      menu.style.height = '50px';
+      menu.style.width = '125px';
+    };
+    document.getElementById(obj.Fid).append(o);
+    return o;
+  };
+  //获取样式函数
+  function getStyle(obj, attr)
+  {
+    if(obj.currentStyle)
+    {
+      return obj.currentStyle[attr];  //IE
+    }else{
+      return getComputedStyle(obj,false)[attr];  //FF
+    }
+  }
+</script>
+</html>
